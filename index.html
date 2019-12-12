@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button id="button">Click</button>
+<input type="text" id="input" />
+</body>
+</html>
+
+<script>
+    let xhr = new XMLHttpRequest();
+    let button = document.getElementById('button');
+    let input = document.getElementById('input');
+
+    button.addEventListener('click', () => {
+        xhr.open('POST', 'http://localhost:8081/message');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onloadend = () => {
+            if (xhr.status != 200) {
+                alert('Error ' + xhr.status + ': ' + xhr.statusText);
+            } else {
+                alert(JSON.parse(xhr.responseText).message);
+            }
+        };
+        xhr.send(JSON.stringify({ message: input.value }));
+    })
+</script>
